@@ -1,0 +1,15 @@
+services:
+  mysql:
+    platform: linux/x86_64
+    image:                        mysql:5.7
+    environment:
+      MYSQL_DATABASE:             ${DB_NAME}
+      MYSQL_USER:                 ${DB_USER}
+      MYSQL_PASSWORD:             ${DB_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    volumes:
+      - /var/lib/mysql
+    ports:
+      - ${DOCKER_MYSQLPORT:-3307}:3306
+    command: ['--default-authentication-plugin=mysql_native_password', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    restart:                      always

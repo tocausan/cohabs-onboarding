@@ -1,0 +1,17 @@
+{
+  "name": "cohabs_onboarding",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "npx ts-node src/index.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "mysql": "^2.18.1",
+    "stripe": "^11.3.0"
+  },
+  "devDependencies": {
+    "@types/mysql": "2.15.21"
+  }
+}

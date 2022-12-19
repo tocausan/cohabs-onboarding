@@ -1,0 +1,125 @@
+-- MySQL dump 10.13  Distrib 5.7.23, for macos10.13 (x86_64)
+--
+-- Host: 127.0.0.1    Database: cohabs_onboarding
+-- ------------------------------------------------------
+-- Server version	5.7.38
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `houses`
+--
+
+DROP TABLE IF EXISTS `houses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `houses` (
+  `id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `stripeAccountId` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `houses`
+--
+
+LOCK TABLES `houses` WRITE;
+/*!40000 ALTER TABLE `houses` DISABLE KEYS */;
+INSERT INTO `houses` VALUES ('50oiw0lpcewlrmctv3fttgyldui9c9nc','Flagey 10',1,0,'acct_1MExeSPAMdkaulyl','2020-05-01 16:00:00','2022-04-01 16:00:00'),('mctv3fttgyldui9c9ncs0oiw0lpcewlr','Parvis 69',1,0,'acct_1MExu0POT3xOBx0F','2021-04-12 16:00:00','2021-04-12 16:00:00'),('tgyldui9c9ncs0oiw0lpcemctv3ftwlr','Louis 880',1,0,'acct_1MExu0P0T3xOBx0F','2021-10-13 16:00:00','2022-04-12 16:00:00');
+/*!40000 ALTER TABLE `houses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `leases`
+--
+
+DROP TABLE IF EXISTS `leases`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `leases` (
+  `id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `startDate` datetime NOT NULL,
+  `endDate` datetime NOT NULL,
+  `rentAmount` decimal(10,2) NOT NULL,
+  `houseId` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('signed','void','active','cancelled','finished') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'signed',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `leases`
+--
+
+LOCK TABLES `leases` WRITE;
+/*!40000 ALTER TABLE `leases` DISABLE KEYS */;
+INSERT INTO `leases` VALUES ('ctv3ewlrmfta2sa20oiw0lpcdu9c9nci','2022-05-01 16:00:00','2023-05-01 08:00:00',100.00,'50oiw0lpcewlrmctv3fttgyldui9c9nc','active'),('ewlrmctv3fta2sa20oiw0lpcdu9c9nci','2021-01-01 16:00:00','2022-05-01 08:00:00',750.00,'50oiw0lpcewlrmctv3fttgyldui9c9nc','finished'),('ewlrmctv3fta2sa20oiw0lpcdui9c9nc','2021-01-01 16:00:00','2023-02-01 08:00:00',1500.00,'mctv3fttgyldui9c9ncs0oiw0lpcewlr','active'),('ewlrmctv3fttgyl50oiw0lpcdui9c9nc','2022-03-01 16:00:00','2023-08-01 08:00:00',685.00,'tgyldui9c9ncs0oiw0lpcemctv3ftwlr','active');
+/*!40000 ALTER TABLE `leases` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payments`
+--
+
+DROP TABLE IF EXISTS `payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `payments` (
+  `id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `paid` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `pending` tinyint(1) NOT NULL DEFAULT '0',
+  `dueDate` datetime NOT NULL,
+  `paymentDate` datetime DEFAULT NULL,
+  `comment` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `retries` int(11) NOT NULL DEFAULT '0',
+  `stripeChargeId` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `stripeInvoiceId` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `leaseId` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `userId` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `disputed` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payments`
+--
+
+LOCK TABLES `payments` WRITE;
+/*!40000 ALTER TABLE `payments` DISABLE KEYS */;
+INSERT INTO `payments` VALUES ('20lpcdui9c9ncewlrmctv3fttgyl50oi',880.00,880.00,0,'2022-12-15 23:55:45','2022-12-15 23:55:45',NULL,0,'py_3MExZOA69JWLHl3J0kK6I9VB','NULL','2022-12-15 23:55:45','2022-12-15 23:55:45','ctv3ewlrmfta2sa20oiw0lpcdu9c9nci',NULL,0),('a0lpcdui9c9ncewlrmctv3fttgyl50oi',880.00,880.00,0,'2022-12-15 23:55:45','2022-12-15 23:55:45',NULL,0,'py_3MExdGA69JWLHl3J1Y1VhfOS','NULL','2022-12-15 23:55:45','2022-12-15 23:55:45','ctv3ewlrmfta2sa20oiw0lpcdu9c9nci',NULL,0),('gyl50oiw0lpcdui9c9ncewlrmctv3ftt',1500.00,0.00,0,'2022-12-15 23:55:45','2022-12-15 23:55:45',NULL,0,'py_3MEyHLA69JWLHl3J0zLDalrr','NULL','2022-10-15 23:55:45','2022-12-15 23:55:45','ewlrmctv3fta2sa20oiw0lpcdui9c9nc',NULL,0),('lpcdncewlrw0ui9c9mctv3fttgyl50oi',700.00,700.00,0,'2022-10-15 23:55:45','2022-10-15 23:55:45',NULL,0,'py_3MEyE8A69JWLHl3J0dp0YO1R','NULL','2022-12-15 23:55:45','2022-12-15 23:55:45','ewlrmctv3fta2sa20oiw0lpcdu9c9nci',NULL,0),('ncewlrmctv3fttgyl50oiw0lpcdui9c9',1500.00,0.00,0,'2022-12-15 23:55:45','2022-12-15 23:55:45',NULL,0,'py_3MEyHWA69JWLHl3J0Ih2QgRr','NULL','2022-11-15 23:55:45','2022-12-15 23:55:45','ewlrmctv3fta2sa20oiw0lpcdui9c9nc',NULL,0),('ncewlrw0lpcdui9c9mctv3fttgyl50oi',700.00,700.00,0,'2022-11-15 23:55:45','2022-11-15 23:55:45',NULL,0,'py_3MEyDhA69JWLHl3J0PSKrX1H','NULL','2022-12-15 23:55:45','2022-12-15 23:55:45','ewlrmctv3fta2sa20oiw0lpcdu9c9nci',NULL,0),('w0lpcdui9c9ce11rmctv3fttngyl50oi',240.00,240.00,1,'2022-12-15 23:55:45','2022-12-15 23:55:45',NULL,0,'py_3MExrzA69JWLHl3J1muSGyQM','NULL','2022-12-15 23:55:45','2022-12-15 23:55:45','ctv3ewlrmfta2sa20oiw0lpcdu9c9nci',NULL,0),('w0lpcdui9c9cewlrmctv3fttngyl50oi',700.00,700.00,0,'2022-12-15 23:55:45','2022-12-15 23:55:45',NULL,0,'py_3MEyDYA69JWLHl3J0cbrrHcJ','NULL','2022-12-15 23:55:45','2022-12-15 23:55:45','ewlrmctv3fta2sa20oiw0lpcdu9c9nci',NULL,0),('w0lpcdui9c9ncewlrmctv3fttgy110oi',880.00,880.00,0,'2022-12-15 23:55:45','2022-12-15 23:55:45',NULL,0,'py_3MExrhA69JWLHl3J1yYWD7QR','NULL','2022-12-15 23:55:45','2022-12-15 23:55:45','ctv3ewlrmfta2sa20oiw0lpcdu9c9nci',NULL,0),('w0lpcdui9c9ncewlrmctv3fttgyl50ai',880.00,880.00,0,'2022-12-15 23:55:45','2022-12-15 23:55:45',NULL,0,'py_3MEy0eA69JWLHl3J1oi4DRW9','NULL','2022-12-15 23:55:45','2022-12-15 23:55:45','ctv3ewlrmfta2sa20oiw0lpcdu9c9nci',NULL,0),('w0lpcdui9c9ncewlrmctv3fttgyl50oi',1500.00,1500.00,0,'2022-12-15 23:55:45','2022-12-15 23:55:45',NULL,0,'ch_3MFFVNA69JWLHl3J1IeUu14U','NULL','2022-12-15 23:55:45','2022-12-15 23:55:45','ewlrmctv3fta2sa20oiw0lpcdui9c9nc',NULL,1),('w0lpcdui9c9ncewlrmctv3fttgyl50si',880.00,880.00,1,'2022-12-15 23:55:45','2022-12-15 23:55:45',NULL,0,'','NULL','2022-12-15 23:55:45','2022-12-15 23:55:45','ctv3ewlrmfta2sa20oiw0lpcdu9c9nci',NULL,0);
+/*!40000 ALTER TABLE `payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'cohabs_onboarding'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-12-16  2:10:19

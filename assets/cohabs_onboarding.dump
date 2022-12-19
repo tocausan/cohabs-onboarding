@@ -1,0 +1,188 @@
+-- MySQL dump 10.13  Distrib 5.7.23, for macos10.13 (x86_64)
+--
+-- Host: 127.0.0.1    Database: cohabs_onboarding
+-- ------------------------------------------------------
+-- Server version	5.7.40
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `leases`
+--
+
+DROP TABLE IF EXISTS `leases`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `leases` (
+  `id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `startDate` datetime NOT NULL,
+  `endDate` datetime NOT NULL,
+  `rentAmount` decimal(10,2) NOT NULL,
+  `number` int(11) NOT NULL,
+  `name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `moveoutDate` datetime NOT NULL,
+  `preferredMoveoutDate` datetime DEFAULT NULL,
+  `moveoutDateRequest` datetime DEFAULT NULL,
+  `extensionAccepted` tinyint(1) DEFAULT NULL,
+  `moveoutReason` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `moveoutDesiderata` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `depositAmount` decimal(10,2) NOT NULL,
+  `signatureDate` datetime NOT NULL,
+  `hasCompletedOnboarding` tinyint(1) NOT NULL DEFAULT '0',
+  `onboardingCompletedDate` datetime DEFAULT NULL,
+  `hasMovedIn` tinyint(1) NOT NULL DEFAULT '0',
+  `moveInDate` datetime DEFAULT NULL,
+  `hasMovedOut` tinyint(1) NOT NULL DEFAULT '0',
+  `endType` enum('generic','switchRoom','switchHouse','moveout','extend') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'generic',
+  `sendgridBatchId` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `userId` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `roomId` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hasLateFees` tinyint(1) NOT NULL DEFAULT '0',
+  `stripeSubscriptionId` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `hubId` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `chainId` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `startType` enum('generic','switchRoom','switchHouse','moveout','extend') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'generic',
+  `depositCalculated` tinyint(1) NOT NULL DEFAULT '0',
+  `status` enum('signed','void','active','cancelled','finished') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'signed',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `leases`
+--
+
+LOCK TABLES `leases` WRITE;
+/*!40000 ALTER TABLE `leases` DISABLE KEYS */;
+INSERT INTO `leases` VALUES ('_39Uc2KLlyQ5Ex-dpX2dgXePz-rxEq02','2022-05-01 16:00:00','2023-05-01 08:00:00',685.00,1712,'bru-couv-10-oscar-1712','2022-05-01 16:00:00',NULL,NULL,0,NULL,NULL,1100.00,'2022-03-17 09:27:45',0,NULL,0,NULL,0,'generic',NULL,'__3fdreJDAIMcL4rIs1P7E5S1_IAb2nW','_8l45_gt2q-qzeQ9UlGpIwgP9Bz7j1I9',0,NULL,'2022-03-17 09:27:45','2022-03-22 10:12:48','28530664410399680222952505886337','rt6V9REpVVgBthP1AnnrzBKCTliXSay0','generic',0,'cancelled'),('_3ujExxiNDbzFVOnN11SmF8NiZeU7uX6','2022-07-20 16:00:00','2023-01-19 09:00:00',780.00,2093,'bru-merc-6-pien-2093','2023-01-19 09:00:00',NULL,NULL,0,NULL,NULL,1100.00,'2022-07-19 15:27:59',1,'2022-07-20 08:00:30',1,'2021-07-02 07:25:59',0,'generic',NULL,'_-FU8ap_YpPCBYtuFR-aW_pg_AAkmgMu','_HADg0l5L7Z5gwmbHJOqqb3rfmiwH8mD',0,NULL,'2022-07-19 15:27:59','2022-08-20 00:01:03','28530664410399680222952505886337','KhLxN9iqyGlrwmvJPctSq24xoWoZHnWC','switchRoom',0,'active'),('_3XqUEfi5POBMM3oA2qERDYxygINZ5DY','2022-09-01 16:00:00','2023-09-01 08:00:00',780.00,2027,'bru-ste-12-kenza-2027','2022-09-01 16:00:00',NULL,NULL,0,NULL,NULL,1100.00,'2022-07-08 08:11:07',0,NULL,0,'2021-02-02 02:10:02',0,'generic',NULL,'dei514by9l7n6zrn6fposbjalvzks5nh','_He8sl3cZ4Cjobpyy6vQxXTtneHhsOsd',0,NULL,'2022-07-08 08:11:07','2022-07-08 12:46:34','28530664410399680222952505886337','7F1j5I2FhLKndozsG0nPeWpmgwnomuMW','generic',0,'cancelled'),('_4Uk0vyMpj790JrDFGIFXCBEaLPz624i','2021-05-07 22:00:00','2021-07-05 14:00:00',1450.00,781,'nyc-pros-4-hannah-781','2021-07-20 14:00:00',NULL,NULL,NULL,NULL,NULL,1312.00,'2021-05-03 15:23:50',0,NULL,1,'2021-06-04 15:51:45',1,'switchRoom',NULL,'cg6gjknd3f7e35sc48xcf4iuy7vbvsfy','_IfSFRf_3hVyo5PB3wQdnccidYomY3WV',0,NULL,'2021-05-03 15:23:53','2021-09-01 15:25:53','ebg84kqxwkil7rceyt7t33q0q8lgue0m','5MZzt0BA7SlhQqG3lkakXkZT1laoVhKp','switchRoom',1,'finished'),('_5qVwg-rSB2OCIVFmlQpxYiCpUs8cOpZ','2022-02-24 17:00:00','2022-08-24 08:00:00',855.00,1509,'bru-merc-13-gráinne -1509','2022-07-31 10:00:00',NULL,NULL,0,'','',1100.00,'2022-01-13 15:24:50',1,'2022-02-27 18:42:17',1,'2022-02-27 18:57:34',1,'moveout',NULL,'fmon7uoj192gscewsa6mjo9r5qzmzmqx','_NYNv-fb1SnrlLJRokxvMMROFfhGhmVi',0,NULL,'2022-01-13 15:24:50','2022-08-11 00:01:18','28530664410399680222952505886337','u8DRI90KAisXZniCxzgpWZJGyy8QGPgt','generic',1,'finished'),('_8UPv9ZxptBut7yyZWCcWhTYZrXmaKqk','2021-12-31 17:00:00','2022-07-01 08:00:00',770.00,1380,'bru-flg-1-roxane-1380','2022-07-01 08:00:00',NULL,NULL,0,NULL,NULL,1100.00,'2021-12-13 11:12:28',1,'2022-01-02 10:32:07',1,'2022-01-02 19:02:48',1,'generic',NULL,'k9qhodfyn0r77s0c35rqi1d4f8nvlegn','_PIi6j_Go-0HHr6oZJj5wN4s0cMTTlv4',0,NULL,'2021-12-13 11:12:28','2022-07-12 00:00:44','28530664410399680222952505886337','PW4P4cTl4iWuiiNEv9h7cNQU0TPNe9n7','generic',1,'finished'),('_9WeqTfDRLlmL-aL0Axvd7qfqE6h0pFW','2022-08-02 16:00:00','2023-02-02 09:00:00',880.00,1963,'bru-parw-2-ana-1963','2023-02-02 09:00:00',NULL,NULL,0,NULL,NULL,1100.00,'2022-06-28 12:11:00',1,'2022-08-02 16:53:09',1,'2022-08-04 11:02:13',0,'generic',NULL,'kp3myslyg4eptfzyizs8oa1wrxijufe1','_QlJNhNp5PJ7a9TxQ8aEhgKxjGz3kC4b',0,NULL,'2022-06-28 12:11:00','2022-08-04 11:02:13','28530664410399680222952505886337','NXJve4qo53mqQJX6cBiZsN3OeD2foUA2','generic',0,'active'),('_A99tiB1-Q--Pf9jYhDXkH0oU16hoZZE','2021-02-21 17:00:00','2021-07-30 08:00:00',710.00,640,'bru-lcc-12-luis-640','2021-07-30 08:00:00',NULL,NULL,0,NULL,NULL,1100.00,'2021-02-18 12:21:07',0,NULL,1,'2021-02-21 20:13:39',1,'generic',NULL,'6rt2zqxa7vspnheuizcl56k75l704a92','_UanyPZDeIqyOdxtLxj1sItAZT0H90uT',0,NULL,'2021-02-18 12:21:09','2021-09-01 15:25:53','28530664410399680222952505886337','WLJNECVHEzMMoXonzrRQ-udszRZoOH1O','generic',1,'finished'),('_aw8OWuSLad7d-S772pU9Vsfm530RbyM','2021-02-15 17:00:00','2021-10-01 08:00:00',900.00,626,'bru-lcc-7-oskar-626','2021-08-01 10:00:00',NULL,NULL,0,NULL,NULL,1100.00,'2021-02-12 14:28:58',0,NULL,1,'2021-02-15 20:33:18',1,'switchRoom',NULL,'dur3x2kr5exoftgy40i84d4cxy12oyl6','-oWfdBm3g1fBFPeGnFXOCsV7Eov4_ozR',0,NULL,'2021-02-12 14:29:01','2021-09-04 00:00:11','28530664410399680222952505886337','q60HbwNgrlFLKeFOsV0udai1PkFofK_K','generic',1,'finished'),('_bdMCkcA_fA8lsxxTlDQqWaXTRPUvaRz','2022-06-24 22:00:00','2022-11-30 15:00:00',1780.00,1790,'nyc-mal-9-paul-1790','2022-11-20 10:00:00',NULL,NULL,0,NULL,NULL,3560.00,'2022-04-21 22:33:59',1,'2022-06-24 21:15:35',1,'2021-02-02 02:10:02',1,'generic',NULL,'jb04jmg7iy3tfi6sh6oslth66balkfm8','_8l45_gt2q-qzeQ9UlGpIwgP9Bz7j1I9',0,NULL,'2022-04-21 22:33:59','2022-11-21 00:00:03','ebg84kqxwkil7rceyt7t33q0q8lgue0m','bGZ1pyJjhcV-rK36JobD8Cq_rcjoi0Xm','switchRoom',0,'finished'),('_fqrL2tx8V3eef5F7iWxnCwKO9qRc_55','2022-10-24 22:00:00','2023-04-24 14:00:00',1955.00,2391,'nyc-mal-3-cristina-2391','2022-11-28 10:00:00',NULL,NULL,0,NULL,NULL,1930.00,'2022-10-28 16:31:17',1,'2022-10-31 15:58:14',1,'2021-07-02 07:25:59',1,'generic',NULL,'gwfs2r79ov2h4061p0i8zg67zb4d5oen','_HADg0l5L7Z5gwmbHJOqqb3rfmiwH8mD',0,NULL,'2022-10-28 16:31:17','2022-11-29 00:00:05','ebg84kqxwkil7rceyt7t33q0q8lgue0m','ZUgooLFXFNzSx2VxaX74a-tRSrpTIXTh','generic',0,'finished'),('_gS43q98FxJy-ejjGfdcmtg6nqxNHK6G','2021-01-31 23:00:00','2021-04-30 14:00:00',1312.00,587,'nyc-nyy-7-diana-587','2021-04-30 14:00:00',NULL,NULL,0,NULL,NULL,2624.00,'2021-01-19 12:54:53',0,NULL,1,'2021-02-02 02:10:02',1,'generic',NULL,'9ta0zgu8oywalzytv2h9rqw87g9h9mut','_He8sl3cZ4Cjobpyy6vQxXTtneHhsOsd',0,NULL,'2021-01-19 12:54:56','2021-09-01 15:25:53','ebg84kqxwkil7rceyt7t33q0q8lgue0m','8RsyH9Ubv6VQRdjyxEgLdZET1PB5Ivps','generic',1,'finished'),('_h0QWGTVsZzBBN6tWS6HpANeDhdwdRUb','2022-02-01 17:00:00','2022-07-15 08:00:00',860.00,1357,'bru-parw-14-benjamin-1357','2022-07-15 08:00:00',NULL,NULL,0,NULL,NULL,1100.00,'2021-12-06 22:29:31',1,'2022-02-01 18:10:08',1,NULL,1,'generic',NULL,'fmcw1j3ee7gwzvg1y0rnvy88eelmidy5','_IfSFRf_3hVyo5PB3wQdnccidYomY3WV',0,NULL,'2021-12-06 22:29:31','2022-08-06 00:00:59','28530664410399680222952505886337','CMLQYAJQK4uvaoFAiHdd58pQWObgALop','generic',1,'finished'),('_h9cBsAOv1oA_ZKiMdo2IeMeyUZ7dD22','2022-04-01 16:00:00','2022-10-01 08:00:00',820.00,1609,'bru-cres-19-louise-1609','2023-04-04 10:00:00',NULL,NULL,1,NULL,NULL,1100.00,'2022-02-16 12:49:51',1,'2022-04-03 17:17:53',1,'2022-04-03 21:35:44',0,'extend',NULL,'0wnfiq5jvct6jzngxyebx4coqv5xwkze','_NYNv-fb1SnrlLJRokxvMMROFfhGhmVi',0,NULL,'2022-02-16 12:49:51','2022-07-31 10:34:29','28530664410399680222952505886337','YAmR--8D7iDRSzBLZbdozGcjFUJWp5R3','generic',0,'active'),('_hn-_xg2qBg0nNMQ0ikDwMSRXy3gkyyv','2022-01-24 17:00:00','2022-08-01 08:00:00',690.00,1399,'bru-forg-2-julia-1399','2022-07-03 10:00:00',NULL,NULL,0,NULL,NULL,1100.00,'2021-12-15 17:58:13',1,'2022-01-24 15:52:05',1,'2022-01-26 20:22:49',1,'generic',NULL,'ssb2x5yhdz28362t18l00ajli1ftoj0k','_PIi6j_Go-0HHr6oZJj5wN4s0cMTTlv4',0,NULL,'2021-12-15 17:58:14','2022-07-14 00:00:58','28530664410399680222952505886337','N17f9pl_YgPAGjQc8wjZme19eulBqQG-','generic',1,'finished'),('_IFdFaB9-rh29gdo5f96yOeYEX09ueHI','2020-01-01 17:00:00','2021-05-05 09:00:00',740.00,37,'bru-jour-10-daan-37','2020-07-24 09:00:00',NULL,NULL,0,'',NULL,1100.00,'2019-11-20 15:22:05',0,NULL,1,'2020-01-04 12:19:30',1,'moveout',NULL,'fryqr7kpklb281jnaf5d76dr6xrphotl','_QlJNhNp5PJ7a9TxQ8aEhgKxjGz3kC4b',0,NULL,'2019-11-20 15:22:07','2021-09-01 15:25:53','28530664410399680222952505886337','uCidHxqqVME_yTItllduTacgIP8CznfU','generic',1,'finished'),('_isABD9WJOTmlJk5dm-H-EbbCXuxf4Yz','2021-02-01 17:00:00','2021-05-01 08:00:00',755.00,519,'bru-roya-18-mihaela anca-519','2021-07-01 10:00:00',NULL,NULL,0,'','',1100.00,'2020-12-08 13:29:40',0,NULL,1,'2021-02-09 21:45:34',1,'switchRoom',NULL,'uzx2uyx5wqnezh1pmiz7ryua48mz6weu','_UanyPZDeIqyOdxtLxj1sItAZT0H90uT',0,NULL,'2020-12-08 13:29:44','2022-10-12 00:00:32','28530664410399680222952505886337','-0bIQQDAojCy-DICzCgaeSHScWm4QdWR','generic',1,'finished'),('_iXW_zyK_6cdnifvDNpTY3EqzlqSrIhe','2021-07-01 16:00:00','2022-07-01 08:00:00',900.00,771,'bru-cam-5-veronika-771','2022-10-01 10:00:00',NULL,NULL,1,'',NULL,1100.00,'2021-04-29 09:27:13',1,'2021-07-01 16:00:00',1,'2021-07-02 07:25:59',1,'moveout',NULL,'lzcntjkkvsjkefm464c933it6felcq6x','_VyG38ulOt-AmRgvO8t1Kzu0NgJgbZ5M',0,NULL,'2021-04-29 09:27:16','2022-10-12 00:00:32','28530664410399680222952505886337','uizUxSzFNALMRZq4gqVwxHZLlypZAho0','generic',1,'finished'),('_Je_RoSZZt6OOs_6mDHfC1F2dL09WqOd','2022-03-01 17:00:00','2022-09-01 08:00:00',1090.00,1650,'par-gam-4-louis -1650','2022-08-02 10:00:00',NULL,NULL,0,NULL,NULL,1090.00,'2022-02-28 14:30:34',1,'2022-03-01 19:19:04',1,'2022-03-03 20:27:14',1,'generic',NULL,'wo7ji1dyxoe2f9kxif9brcik1qw2nl1w','_YsJ6Xk3hkCd63DM-N6WmdCVYQ4TxxDn',0,NULL,'2022-02-28 14:30:34','2022-10-05 00:00:26','iouldueibhc7wmsanqr6tkvq9wfca2lk','eEP7aSUHMZvSpyL6sMwWLIIwv712QUbt','generic',1,'finished'),('_lcgjlcG_w16g2UqeMZi48p6Fz3RYBEO','2021-11-29 23:00:00','2022-03-01 15:00:00',1730.00,1247,'nyc-pros-1-kyra-1247','2022-05-01 10:00:00',NULL,NULL,0,NULL,NULL,1700.00,'2021-10-26 21:35:52',1,'2021-11-29 23:00:00',1,'2021-12-02 00:02:31',1,'generic',NULL,'0h3iPPzdQWvv83e-ElXDpKFZdZYUycCz','aDKr9aHihK9bQXuoSUTAKMcdAyfDi2sS',0,NULL,'2021-10-26 21:35:52','2022-05-12 00:00:41','ebg84kqxwkil7rceyt7t33q0q8lgue0m','cO9oli_C6bF7thlC2cjtBzlzekzNfZ9d','generic',1,'finished');
+/*!40000 ALTER TABLE `leases` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `rooms`
+--
+
+DROP TABLE IF EXISTS `rooms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rooms` (
+  `id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `number` int(11) DEFAULT NULL,
+  `location` varchar(160) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(160) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `baseRent` decimal(10,2) DEFAULT NULL,
+  `stripeProductId` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `houseId` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lockId` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cmsId` int(11) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `deposit` decimal(10,2) DEFAULT NULL,
+  `unitId` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `surface` int(11) DEFAULT NULL,
+  `rent` decimal(10,2) DEFAULT NULL,
+  `category` enum('essential','essentialPlus','classic','classicPlus','affinity','affinityPlus','solidarity','PMR') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rooms`
+--
+
+LOCK TABLES `rooms` WRITE;
+/*!40000 ALTER TABLE `rooms` DISABLE KEYS */;
+INSERT INTO `rooms` VALUES ('_8l45_gt2q-qzeQ9UlGpIwgP9Bz7j1I9',0,0,10,'basement, garden side','This 18sqm bedroom featuring a private bathroom (including shower, sink) is located on the fourth floor',NULL,'prod_LhWWoh1zMJQ8Mg','hzKX-EcDb2iBs3ToEn8q0uWw9vOB5cVP','HUfeia5iJEJ17eqZCEtsNrbSm-ZIhpFS',1158,'2022-11-04 16:33:50','2022-11-04 16:34:08',1850.00,NULL,NULL,1200.00,NULL),('_HADg0l5L7Z5gwmbHJOqqb3rfmiwH8mD',1,0,8,'first floor, street-side','This 11 sqm bedroom featuring a shared bathroom is located on the first floor, street side',NULL,'prod_KEMikL46NqFm0j','OmZl_Tv7N93S_jd2DtPKDmETn6V6t6qJ','HUfeia5iJEJ1EeqZCEtsNrbSm-ZIhpFS',524,'2020-09-07 13:46:52','2021-09-24 17:21:14',1300.00,NULL,NULL,1000.00,NULL),('_He8sl3cZ4Cjobpyy6vQxXTtneHhsOsd',1,0,2,'second floor, street side','This 18sqm bedroom featuring a private bathroom (including shower, sink) is located on the fourth floor',NULL,'prod_LhWWoh1zMJQ8Mg','pTpyNksRejfLEUlySKgh2lsBY7K4Kehw','p4e0n_ty8LECu0s-GFNO-YoozLSzz0s1',1019,'2022-05-11 15:50:17','2022-05-11 15:50:17',1850.00,NULL,NULL,1200.00,NULL),('_IfSFRf_3hVyo5PB3wQdnccidYomY3WV',1,0,2,'first half floor, garden side right','This 13.5sqm bedroom featuring a private bathroom (including shower, sink) is located on the first half floor, garden side right',NULL,'prod_KEMikL46NqFm0j','cu5hrmznl1s153fxvwr6npohh7pt9pv0','p4e0n_ty8LECu0s-GFNO-0oozLSzz0s1',462,'2020-06-17 08:31:07','2022-09-19 17:45:08',1300.00,NULL,NULL,1400.00,NULL),('_NYNv-fb1SnrlLJRokxvMMROFfhGhmVi',1,0,6,'second floor, street side','This 96 sqft bedroom featuring a shared bathroom is located on the second floor, street side',NULL,'prod_LhWWoh1zMJQ8Mg','VJ9b8thoEkhfBQbQ3Ym456CPlloriBFJ','p4e0n_ty8LECu0s-GFNO-0oozLSzz0s2',872,'2022-01-10 15:51:29','2022-10-12 22:17:36',1850.00,'',NULL,1400.00,NULL),('_PIi6j_Go-0HHr6oZJj5wN4s0cMTTlv4',0,0,6,'second floor, street side','This 11sqm bedroom featuring a shared bathroom is located on the second half floor, garden side right',NULL,'prod_LKIRK7oG8d8izM','Iv2B14HjDC9fUXd57FjQXpbAL5gMerT9','p4e0n_ty8LECu0s-GFNO-0oozLSzz0s3',1103,'2022-10-05 13:39:07','2022-10-05 13:39:29',1850.00,NULL,NULL,1200.00,NULL),('_QlJNhNp5PJ7a9TxQ8aEhgKxjGz3kC4b',1,0,8,'second half floor, garden side right','This 11sqm bedroom featuring a shared bathroom is located on the second half floor, garden side right',NULL,'prod_KEMikL46NqFm0j','50oiw0lpcewlrmctv3fttgyldui9c9nc','8ae6n14SGN4gNkuBf5jTUZZmdu2DhmK6',345,'2019-12-11 16:28:29','2022-10-17 13:26:36',1300.00,NULL,NULL,1400.00,NULL),('_UanyPZDeIqyOdxtLxj1sItAZT0H90uT',1,0,12,'first floor, street-side','This 11sqm bedroom featuring a shared bathroom is located on the second half floor, garden side right',NULL,'prod_KEMikL46NqFm0j','uNPXyw6YZprLpQoN58dg7axiB1cWyMBq','8ae6n14SGN4gNkuBf5jTUYZmdu2DhmK6',987,'2022-05-11 15:27:02','2022-05-11 15:27:02',1300.00,NULL,NULL,1000.00,NULL),('_vk-LnBV0TckDhk97DFHx-EHMIOSMUvK',1,0,1,'basement, garden side','This 18.80 sqm bedroom featuring a private bathroom (including shower, sink) and a private toilet, is located in the basement, garden side',NULL,'prod_KEMikL46NqFm0j','6j49DnQB5vUpqO6ekQFBwqUjMyy33FeR','7W8M_IShafqj9nOPjvXRo5XGfVuuwBB9',963,'2022-05-11 15:20:55','2022-09-24 17:13:18',1300.00,NULL,NULL,1200.00,NULL),('_VyG38ulOt-AmRgvO8t1Kzu0NgJgbZ5M',0,0,15,'basement, garden side','This 13sqm bedroom featuring a private bathroom (including shower, sink) is located on the second floor, street side',NULL,'prod_LKIRK7oG8d8izM','Iv2B14HjDC9fUXd57FjQXpbAL5gMerT9','7W8M_IShafqj9nOPjvXRo5XGfVuuwBB8',1106,'2022-10-05 13:39:07','2022-10-05 13:39:29',1850.00,NULL,NULL,1000.00,NULL),('_YsJ6Xk3hkCd63DM-N6WmdCVYQ4TxxDn',1,0,14,'second floor, garden side','This 14sqm bedroom featuring a shared bathroom (including shower, sink) is located on the second floor, garden side',NULL,'prod_KEMikL46NqFm0j','78iqsv7wo5gm9p20uyh5tnn9kme2a20u','DFv2ibOkaIzPc48INRL-PLNv4sl5O0wN',542,'2020-09-28 16:02:52','2022-10-17 09:21:01',2500.00,NULL,NULL,1200.00,NULL),('-1ZQ2FFeZkY8aVfRofKJjKMYoUBa4Rfp',1,0,5,'third floor, street side','This 13sqm bedroom featuring a shared bathroom (including shower, sink) is located on the third floor, street side',NULL,'prod_KEMikL46NqFm0j','6zw7NFYFRAJFXv93j1hH2TPABhPwxiDv','v3x7Odc4DABtlj3z6zmD9N0e8iUgnPkZ',355,'2020-02-11 16:21:31','2022-09-21 12:19:27',1300.00,NULL,NULL,1000.00,NULL),('-379rPm6dzJ1Ldgd-wxpQEpeqGZOj7L9',1,0,11,'second floor, street side','This 13sqm bedroom featuring a private bathroom (including shower, sink) is located on the second floor, street side',NULL,'prod_KEMikL46NqFm0j','kuo9oggc14v3i1iyx4tjtvml3kwh4wfe','oVvjjeXSLofL38zzk3qsX1zVv2DAsVL5',508,'2020-07-27 11:47:07','2022-11-25 09:08:52',2500.00,NULL,NULL,1200.00,NULL),('-hVUgkhi2fEuh6xNVpguQjNwHbY4epCv',1,0,17,'third floor, garden-side','This 14sqm bedroom featuring a private bathroom (including shower, sink) is located on the third floor, garden-side',NULL,'prod_KEMikL46NqFm0j','zme89trarjucygm9o2ny5epx298x5reh','QhOoSnXp6x9fZHg35GkkNzfRjePdvUbr',565,'2020-10-05 11:39:13','2022-03-09 17:03:58',1300.00,NULL,NULL,1400.00,NULL),('-iRe4EYYSMVExJTCd_0OfPI3NDwQDaP_',1,0,22,'fourth floor, garden side','This 9.3sqm bedroom featuring a shared bathroom (including sink) is located on the fourth floor, garden side',NULL,'prod_KEMikL46NqFm0j','nmiFOySIO4eDwO_qaIw8SlcBlCiC4alL','_lUXUERzu0hJtobVjXhJLYg6xmG6dAKd',830,'2021-09-15 16:50:29','2022-10-17 15:29:08',1300.00,NULL,NULL,1000.00,NULL),('-MFKrs1DN3JORaXhF0fZ5fRi9igonz5l',1,0,17,'fourth floor, street side','This 12.1sqm bedroom featuring a shared bathroom (including shower, sink), is located on the fourth floor, street side',NULL,'prod_KEMikL46NqFm0j','s0DjS8MKhhY3rU_1DGLcV2XPcB-oJkxJ','YyOYp8tmn0oCcCmvuGzlL4F_GD6hvGlK',703,'2021-05-27 10:57:25','2022-05-04 14:11:52',1300.00,NULL,NULL,1200.00,NULL),('-MM21GZraNK9wDBmsfD9OxNAb4WWLhEF',0,0,6,'fourth floor, street side','This 18sqm bedroom featuring a private bathroom (including shower, sink) is located on the fourth floor',NULL,'prod_KEMikL46NqFm0j','7O5Col1InCXoN91dWDTS90vLnhHFvbdr','tYs4hmG-nEmqB-OK685DTaX8wUej7DW9',993,'2022-05-11 15:30:27','2022-05-11 15:30:42',1300.00,NULL,NULL,1000.00,NULL),('-oWfdBm3g1fBFPeGnFXOCsV7Eov4_ozR',1,0,5,'first floor, garden side','This 13.2sqm bedroom featuring a private bathroom (including shower, sink) is located on the first floor, garden side',NULL,'prod_KEMikL46NqFm0j','_54Nu4Pe9-3bntkV_LxXxdkgsrjrmfwL','tYs4hmG-nEmqB-OK685DTaX8wUej7DW7',755,'2021-05-27 11:08:01','2022-11-25 09:33:40',2500.00,NULL,NULL,1000.00,NULL),('-OyHvZdxKNKgi8XuBwj7s6KlZx_ehc1i',1,0,15,'fourth floor','This 18sqm bedroom featuring a private bathroom (including shower, sink) is located on the fourth floor',NULL,'prod_KEMikL46NqFm0j','50oiw0lpcewlrmctv3fttgyldui9c9nc','4s4MhJur88gCum6sQHb2-H-wt51gSYvz',352,'2019-12-11 16:42:13','2022-10-17 13:28:40',1300.00,NULL,NULL,1200.00,NULL),('-RJlZsWSLU9EMPK3MUeJeUNC8ONWRFAN',1,0,8,'second floor, garden side','This 18sqm bedroom featuring a private bathroom (including shower, sink) is located on the fourth floor',NULL,'prod_LhWWoh1zMJQ8Mg','XC6-jYlqhirALwPJQDuBI1niOcqEg4y2','tYs4hmG-nEmqB-OK685DTaX8wUej7DW5',790,'2021-09-01 14:50:29','2021-09-01 14:50:29',1850.00,NULL,NULL,1000.00,NULL);
+/*!40000 ALTER TABLE `rooms` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `salt` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `emailVisibility` tinyint(1) NOT NULL DEFAULT '1',
+  `firstName` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lastName` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nickName` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `birthdate` datetime DEFAULT NULL,
+  `birthdateVisibility` tinyint(1) NOT NULL DEFAULT '1',
+  `picture` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `serviceVouchers` tinyint(1) NOT NULL DEFAULT '0',
+  `banned` tinyint(1) NOT NULL DEFAULT '0',
+  `confirmed` tinyint(1) NOT NULL DEFAULT '0',
+  `role` enum('admin','communityManager','hubManager','propertyManager','intern','cleaning','user') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phoneNumber` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phoneNumberVisibility` tinyint(1) NOT NULL DEFAULT '1',
+  `job` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` enum('male','female','other') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `genderVisibility` tinyint(1) NOT NULL DEFAULT '1',
+  `about` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alreadyConnected` tinyint(1) NOT NULL DEFAULT '0',
+  `facebook` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `twitter` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `instagram` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `linkedIn` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `zendeskId` bigint(20) unsigned DEFAULT NULL,
+  `nationalityId` varchar(4) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `prefixId` varchar(4) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `residency` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `employment` enum('employed','unemployed','self-employed','student') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `autoRefundDeposit` tinyint(1) NOT NULL DEFAULT '1',
+  `bio` text COLLATE utf8mb4_unicode_ci,
+  `interests` text COLLATE utf8mb4_unicode_ci,
+  `stripeCustomerId` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `salt` (`salt`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES ('__3fdreJDAIMcL4rIs1P7E5S1_IAb2nW',1,'jmsmv1m7h3oe657qy8ka7mhe9yk7ga3e',NULL,'it+__3fdreJDAIMcL4rIs1P7E5S1_IAb2nW@cohabs.com',1,'Archie','Swift',NULL,'1985-05-12 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/872.jpg',0,0,0,'user','467 73 04 90',1,'Dynamic Applications Assistant','male',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'us','2021-09-12 16:15:37','2021-09-12 16:15:37',NULL,'employed',NULL,1,NULL,NULL,NULL),('_-FU8ap_YpPCBYtuFR-aW_pg_AAkmgMu',1,'ppt7n5dedpphsroojmbdo9gjr33hkdh1',NULL,'it+_-FU8ap_YpPCBYtuFR-aW_pg_AAkmgMu@cohabs.com',1,'Clifford','McKenzie',NULL,'2001-10-02 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/979.jpg',0,0,0,'user','987 78 86 67',1,'Dynamic Optimization Assistant','male',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'fr','2022-03-13 16:08:06','2022-03-13 16:08:06',NULL,'employed',NULL,1,NULL,NULL,NULL),('_-iVQ17fMBY1AoBIRZ8xsHBIrueMewt5',1,'dei514by9l7n6zrn6fposbjalvzks5nh',NULL,'it+_-iVQ17fMBY1AoBIRZ8xsHBIrueMewt5@cohabs.com',1,'Jeanne','Stamm',NULL,'1995-09-16 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/297.jpg',0,0,0,'user','577 41 42 55',1,'International Tactics Assistant','female',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'be','2020-12-23 10:30:29','2020-12-23 10:30:29',NULL,'employed',NULL,0,NULL,NULL,NULL),('_-MXjbqR3u0UpgBwlBFdEohdf36y95Ar',1,'cg6gjknd3f7e35sc48xcf4iuy7vbvsfy',NULL,'it+_-MXjbqR3u0UpgBwlBFdEohdf36y95Ar@cohabs.com',1,'Cameron','Nader',NULL,'1993-08-09 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/832.jpg',0,0,0,'user','341 42 92 65',1,'Legacy Identity Coordinator','male',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'us','2021-09-30 11:12:54','2021-09-30 11:12:54',NULL,'employed',NULL,1,NULL,NULL,NULL),('_-RauR2MduRIGAoCqzfDJnhzY9gTp0bt',1,'fmon7uoj192gscewsa6mjo9r5qzmzmqx',NULL,'it+_-RauR2MduRIGAoCqzfDJnhzY9gTp0bt@cohabs.com',1,'Alton','Sanford',NULL,'1998-01-27 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/308.jpg',0,0,0,'user','990 03 90 06',1,'District Infrastructure Technician','male',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'es','2022-08-16 17:37:17','2022-08-16 17:37:17',NULL,'employed',NULL,1,NULL,NULL,NULL),('_-wxjaBEMXVNvHJftqTDC08eQMVJJ1qo',1,'k9qhodfyn0r77s0c35rqi1d4f8nvlegn',NULL,'it+_-wxjaBEMXVNvHJftqTDC08eQMVJJ1qo@cohabs.com',1,'Stephen','Schultz',NULL,'1994-05-08 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/29.jpg',0,0,0,'user','155 30 77 80',1,'National Implementation Representative','male',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'be','2022-01-25 10:21:24','2022-01-25 10:21:24',NULL,'employed',NULL,1,NULL,NULL,NULL),('_05toYMdLDrWNQSRf-gbI5_02Sb6PGGL',1,'kp3myslyg4eptfzyizs8oa1wrxijufe1',NULL,'it+_05toYMdLDrWNQSRf-gbI5_02Sb6PGGL@cohabs.com',1,'Roderick','Mohr',NULL,'1991-02-25 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/846.jpg',0,0,0,'user','571 88 65 86',1,'District Factors Planner','male',1,NULL,1,NULL,NULL,NULL,NULL,NULL,'','be','2022-04-26 14:06:15','2022-10-21 08:05:54','','employed',NULL,1,NULL,NULL,NULL),('_1btR5h5XVKLEpeGAeHZdN0L3lzO2SRp',1,'6rt2zqxa7vspnheuizcl56k75l704a92',NULL,'it+_1btR5h5XVKLEpeGAeHZdN0L3lzO2SRp@cohabs.com',1,'Wilbert','Sipes',NULL,'1991-09-27 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/241.jpg',0,0,0,'user','625 22 17 36',1,'Future Group Executive','male',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'be','2022-06-18 15:45:21','2022-06-18 15:45:21',NULL,'employed',NULL,1,NULL,NULL,NULL),('_1OjK6iHR5Gwl6L5cbghVPuTh6ArWqC1',1,'dur3x2kr5exoftgy40i84d4cxy12oyl6',NULL,'it+_1OjK6iHR5Gwl6L5cbghVPuTh6ArWqC1@cohabs.com',1,'Chris','Conn',NULL,'2000-11-12 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/158.jpg',0,0,0,'user','307 19 72 18',1,'Internal Quality Architect','male',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'at','2021-11-24 21:25:39','2021-11-24 21:25:39',NULL,'employed',NULL,1,NULL,NULL,NULL),('_1uCfa_nVbe13r5qw9RaoZqoC5nj7Dnt',1,'jb04jmg7iy3tfi6sh6oslth66balkfm8',NULL,'it+_1uCfa_nVbe13r5qw9RaoZqoC5nj7Dnt@cohabs.com',1,'Angel','Stracke',NULL,'1991-01-10 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/335.jpg',0,0,0,'user','167 51 02 45',1,'Dynamic Brand Assistant','male',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'be','2022-06-16 14:19:09','2022-06-16 14:19:09',NULL,'employed',NULL,1,NULL,NULL,NULL),('_29HQqeT2bbyGXsOvhR9WhPmYq00M5HE',1,'gwfs2r79ov2h4061p0i8zg67zb4d5oen',NULL,'it+_29HQqeT2bbyGXsOvhR9WhPmYq00M5HE@cohabs.com',1,'Timothy','Lebsack',NULL,'2000-03-01 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/241.jpg',0,0,0,'user','224 86 21 38',1,'Legacy Quality Analyst','male',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'be','2022-07-27 10:53:46','2022-07-27 10:53:46',NULL,'employed',NULL,1,NULL,NULL,NULL),('_2SJy-pz7Vegzvp8vUWjrjWAcqMhnHBT',1,'9ta0zgu8oywalzytv2h9rqw87g9h9mut',NULL,'it+_2SJy-pz7Vegzvp8vUWjrjWAcqMhnHBT@cohabs.com',1,'May','Nikolaus',NULL,'1999-10-23 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/775.jpg',0,0,0,'user','495 24 96 41',1,'Lead Branding Liaison','female',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'be','2022-09-29 18:39:51','2022-09-29 18:39:51',NULL,'employed',NULL,1,NULL,NULL,NULL),('_2sRmz-pXAFk_KJ9h2IQ3o-5Omn_4bz_',1,'fmcw1j3ee7gwzvg1y0rnvy88eelmidy5',NULL,'it+_2sRmz-pXAFk_KJ9h2IQ3o-5Omn_4bz_@cohabs.com',1,'Michele','Hudson',NULL,'1997-06-18 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/361.jpg',0,0,0,'user','013 23 37 62',1,'Forward Markets Executive','female',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'it','2022-10-19 20:09:48','2022-10-19 20:09:48',NULL,'employed',NULL,1,NULL,NULL,NULL),('_2UTPicKTiL_PP4R4QYICXylAWrtkkHe',1,'0wnfiq5jvct6jzngxyebx4coqv5xwkze',NULL,'it+_2UTPicKTiL_PP4R4QYICXylAWrtkkHe@cohabs.com',1,'Santiago','Mante',NULL,'1994-12-22 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/142.jpg',0,0,0,'user','113 90 28 06',1,'Senior Brand Director','male',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'be','2021-07-15 07:41:08','2021-07-16 16:20:35',NULL,'employed',NULL,1,NULL,NULL,NULL),('_38qcVWsX9rSGHa0-vzDDZbuVW0IMwgU',1,'ssb2x5yhdz28362t18l00ajli1ftoj0k',NULL,'it+_38qcVWsX9rSGHa0-vzDDZbuVW0IMwgU@cohabs.com',0,'Alton','Parisian','Lena','1995-02-21 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1090.jpg',0,0,0,'user','293 92 02 12',0,'Chief Markets Specialist','male',1,NULL,1,NULL,NULL,NULL,NULL,NULL,'','lu','2022-02-26 18:56:58','2022-05-30 17:13:53','','employed',NULL,1,NULL,NULL,NULL),('_3cq19leh6jxylM4Sofiz0b3-26UV1_M',1,'fryqr7kpklb281jnaf5d76dr6xrphotl',NULL,'it+_3cq19leh6jxylM4Sofiz0b3-26UV1_M@cohabs.com',1,'Vanessa','Walter',NULL,'1975-10-09 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1107.jpg',0,0,0,'user','558 60 70 65',1,'National Configuration Technician','female',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'be','2021-06-22 16:33:12','2021-06-22 16:33:12',NULL,'employed',NULL,1,NULL,NULL,NULL),('_3ma_PuS2YiN5Lb6clnql6_e3yfEayIJ',1,'uzx2uyx5wqnezh1pmiz7ryua48mz6weu',NULL,'it+_3ma_PuS2YiN5Lb6clnql6_e3yfEayIJ@cohabs.com',1,'Lela','Murphy',NULL,'1996-06-12 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/215.jpg',0,0,0,'user','094 54 65 52',1,'Product Group Developer','female',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'be','2020-10-25 20:00:23','2020-10-25 20:00:23',NULL,'employed',NULL,0,NULL,NULL,NULL),('_3rhhB5ZKZDlBi6_Xl_4NKoEFspwi2tW',1,'lzcntjkkvsjkefm464c933it6felcq6x',NULL,'it+_3rhhB5ZKZDlBi6_Xl_4NKoEFspwi2tW@cohabs.com',1,'Tami','Ward',NULL,'2020-01-16 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/260.jpg',0,0,0,'user','565 06 32 80',1,'Customer Solutions Architect','female',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'us','2020-10-27 20:17:48','2020-10-27 20:17:48',NULL,'employed',NULL,0,NULL,NULL,NULL),('_3ZKKMkxBEcSPBjsxoCNKEqTdUmydvdr',1,'wo7ji1dyxoe2f9kxif9brcik1qw2nl1w',NULL,'it+_3ZKKMkxBEcSPBjsxoCNKEqTdUmydvdr@cohabs.com',1,'Ida','Ullrich',NULL,'1997-07-22 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/934.jpg',0,0,0,'user','733 61 30 30',1,'National Applications Officer','female',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'be','2021-07-04 20:42:23','2021-07-04 20:42:23',NULL,'employed',NULL,1,NULL,NULL,NULL),('_4-4BVdXn8T0Cz9qTg3HjJ8rcRhoRaJR',1,'koy3ngw6p5gkptiv6eu9ufc7uu9i4or7',NULL,'it+_4-4BVdXn8T0Cz9qTg3HjJ8rcRhoRaJR@cohabs.com',1,'Marjorie','Feeney',NULL,'1993-10-04 00:00:00',1,'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/151.jpg',0,0,0,'user','833 17 48 05',1,'Corporate Functionality Technician','female',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,'be','2021-10-17 13:11:45','2021-10-17 13:11:45',NULL,NULL,NULL,1,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'cohabs_onboarding'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-12-14 15:32:05
