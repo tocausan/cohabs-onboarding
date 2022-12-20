@@ -3,7 +3,7 @@
 Welcome in our support challenge, the goal of this exercices if to have an idea about your skill, but above all, to have a basis for discussions during our debriefing. This test does not need to be perfect, so there is no need to spend weeks finalizing it, a simple functional example and a good argument will be more than enough.
 
 ## Access Needed
-- https://www.notion.so/cohabs
+- [https://www.notion.so/cohabs](https://www.notion.so/cohabs/Support-challenge-22bdbbf7563e4c2aa15c8b44dd3df186)
 - https://dashboard.stripe.com
 
 ## Requirements
