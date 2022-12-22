@@ -487,7 +487,6 @@ const ProcessServices = {
                         if (error) reject(error);
                         resolve(result);
                      })
-
                })
             }
 
@@ -495,7 +494,7 @@ const ProcessServices = {
             const comment = 'Created from the dispute ID: ' + dispute.id + ', cash balance transaction ID: ' + balanceTransactionId
 
             // duplicate the payment in the database
-            await duplicateDbPayment(dbPayments[0], paymentIntentId, invoiceId, dispute.amount, comment)
+            await duplicateDbPayment(dbPayments[0], balanceTransactionId, invoiceId, dispute.amount, comment)
                .catch(e => { console.log(e); process.exit(0) });
 
             duplicatedDbPaymentCount++
