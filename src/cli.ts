@@ -110,6 +110,7 @@ async function initStripe(): Promise<Stripe> {
           return menu()
 
         case '5':
+          // RENT FIXING
           let transfers = await processServices.fixRent(connection, stripe).catch(e => { console.log(e); process.exit(0) });
           console.log(chalk.bgCyan('\n Results '));
           console.log(chalk.cyan('\nTransfers:'));
