@@ -38,6 +38,8 @@ const ProcessServices = {
       // loop through users
       for (let user of users) {
          // create stripe customer
+         console.log(chalk.cyan('---------------------------'))
+         console.log(chalk.cyan('Customer'))
 
          // create payment method (required for subscription creation)
          const paymentMethod: Stripe.PaymentMethod = await stripe.paymentMethods.create({
@@ -77,9 +79,10 @@ const ProcessServices = {
          }
 
          // display results
-         console.log(chalk.cyan('\nName:'), stripeCustomerData.name)
-         console.log(chalk.cyan('StripeCustomerId:'), stripeCustomerId)
-         console.log(chalk.cyan('Status:'), customers.data.length > 0 ? chalk.gray('Already exists') : chalk.green('Created'))
+         console.log(chalk.cyan(' Name:'), stripeCustomerData.name)
+         console.log(chalk.cyan(' StripeCustomerId:'), stripeCustomerId)
+         console.log(chalk.cyan(' Status:'), customers.data.length > 0 ? chalk.gray('Already exists') : chalk.green('Created'))
+         console.log(chalk.cyan('---------------------------\n'))
       }
 
       return { hasBeenCreatedCount, alreadyExistsCount, errorCount }
@@ -117,6 +120,9 @@ const ProcessServices = {
       // loop through rooms
       for (let room of rooms) {
          // create stripe product
+         console.log(chalk.cyan('---------------------------'))
+         console.log(chalk.cyan('Product'))
+
          const price = room.rent ? parseInt(room.rent) * 100 : 0 // convert price to cents
          const stripeProductData: Stripe.ProductCreateParams = {
             name: room.location,
@@ -149,12 +155,13 @@ const ProcessServices = {
          }
 
          // display results
-         console.log(chalk.cyan('\nName:'), stripeProductData.name)
-         console.log(chalk.cyan('Price:'), stripeProductData.default_price_data)
-         console.log(chalk.cyan('Active:'), stripeProductData.active)
-         console.log(chalk.cyan('Description:'), stripeProductData.description)
-         console.log(chalk.cyan('StripeProductId:'), stripeProductId)
-         console.log(chalk.cyan('Status:'), products.data.length > 0 ? chalk.gray('Already exists') : chalk.green('Created'))
+         console.log(chalk.cyan(' Name:'), stripeProductData.name)
+         console.log(chalk.cyan(' Price:'), stripeProductData.default_price_data)
+         console.log(chalk.cyan(' Active:'), stripeProductData.active)
+         console.log(chalk.cyan(' Description:'), stripeProductData.description)
+         console.log(chalk.cyan(' StripeProductId:'), stripeProductId)
+         console.log(chalk.cyan(' Status:'), products.data.length > 0 ? chalk.gray('Already exists') : chalk.green('Created'))
+         console.log(chalk.cyan('---------------------------\n'))
       }
 
       return { hasBeenCreatedCount, alreadyExistsCount, errorCount }
@@ -209,17 +216,20 @@ const ProcessServices = {
 
       // loop through leases
       for (let lease of leases) {
+         console.log(chalk.cyan('---------------------------'))
+         console.log(chalk.cyan('Subscription'))
+
          const users: Array<any> = await getDbLeaseUser(lease.userId).catch(e => { console.log(e); process.exit(0) })
          const rooms: Array<any> = await getDbLeaseRoom(lease.roomId).catch(e => { console.log(e); process.exit(0) })
 
-         console.log(chalk.cyan('\nLease:'), lease.id)
-         console.log(chalk.cyan('User id:'), lease.userId)
-         console.log(chalk.cyan('Room id:'), lease.roomId)
+         console.log(chalk.cyan(' Lease:'), lease.id)
+         console.log(chalk.cyan(' User id:'), lease.userId)
+         console.log(chalk.cyan(' Room id:'), lease.roomId)
 
          if (users.length <= 0) console.log(chalk.cyan('User:'), chalk.red('Not found'))
-         else console.log(chalk.cyan('User:'), chalk.green('Found'))
+         else console.log(chalk.cyan(' User:'), chalk.green('Found'))
          if (rooms.length <= 0) console.log(chalk.cyan('Room:'), chalk.red('Not found'))
-         else console.log(chalk.cyan('Room:'), chalk.green('Found'))
+         else console.log(chalk.cyan(' Room:'), chalk.green('Found'))
 
          // process only if room and user exist
          if (users.length > 0 && rooms.length > 0) {
@@ -241,8 +251,8 @@ const ProcessServices = {
                ).catch(e => { console.log(e); process.exit(0) });
                if (paymentMethods.data.length > 0) {
                   paymentMethodId = paymentMethods.data[0].id.toString()
-                  console.log(chalk.cyan('Payment method:'), paymentMethodId)
-               } else console.log(chalk.cyan('Payment method:'), chalk.red('Not found'))
+                  console.log(chalk.cyan(' Payment method:'), paymentMethodId)
+               } else console.log(chalk.cyan(' Payment method:'), chalk.red('Not found'))
             }
 
             // get room price
@@ -284,21 +294,23 @@ const ProcessServices = {
                }
 
                // display results
-               console.log(chalk.cyan('StripeCustomerId:'), stripeSubscriptionsData.customer)
-               console.log(chalk.cyan('StripeProductId:'), stripeSubscriptionsData.items)
-               console.log(chalk.cyan('StripeSubscriptionId:'), stripeSubscriptionId)
-               console.log(chalk.cyan('Status:'), subscriptions.data.length > 0 ? chalk.gray('Already exists') : chalk.green('Created'))
+               console.log(chalk.cyan(' StripeCustomerId:'), stripeSubscriptionsData.customer)
+               console.log(chalk.cyan(' StripeProductId:'), stripeSubscriptionsData.items)
+               console.log(chalk.cyan(' StripeSubscriptionId:'), stripeSubscriptionId)
+               console.log(chalk.cyan(' Status:'), subscriptions.data.length > 0 ? chalk.gray('Already exists') : chalk.green('Created'))
 
             } else {
                // missing payment method or product is inactive
-               console.log(chalk.cyan('Status:'), chalk.red('Error:'), 'Missing payment method or product is inactive.')
+               console.log(chalk.cyan(' Status:'), chalk.red('Error:'), 'Missing payment method or product is inactive.')
                errorCount++
             }
          } else {
             // missing user or room
-            console.log(chalk.cyan('Status:'), chalk.red('Error:'), 'Missing user or room.')
+            console.log(chalk.cyan(' Status:'), chalk.red('Error:'), 'Missing user or room.')
             errorCount++
          }
+
+         console.log(chalk.cyan('---------------------------\n'))
       }
 
       return { hasBeenCreatedCount, alreadyExistsCount, errorCount }
@@ -506,6 +518,61 @@ const ProcessServices = {
 
       return { disputeToFixCount, newPaymentIntentCount, duplicatedDbPaymentCount, errorCount }
    },
+
+   // fix rent payments
+   fixRent: async function (connection: any, stripe: any): Promise<{ transfersCount: Number, transfersToFixCount: Number, newTransferCount: Number, errorCount: Number }> {
+
+      let transfersCount = 0
+      let transfersToFixCount = 0
+      let newTransferCount = 0
+      let errorCount = 0
+
+      // retrieve failed transfers
+      const transfers = await stripe.transfers.list()
+
+      console.log(chalk.bgCyan('\n Processing rent fixes \n'))
+
+      // loop through transfers
+      for (const transfer of transfers.data) {
+         transfersCount++
+
+         console.log(chalk.cyan('---------------------------'))
+         console.log(chalk.cyan('Transfer:'))
+         console.log(chalk.cyan(' Id:'), transfer.id)
+
+         // check if transfer_group is missing
+         if (!transfer.transfer_group || transfer.transfer_group == '') {
+            transfersToFixCount++
+
+            console.log(chalk.cyan(' Status: '), 'Payment duplicated in database.')
+            console.log(chalk.cyan(' Transfer group:'), chalk.red('Not found'))
+
+            // create new transfer
+            const newTransfer: Stripe.Transfer = await stripe.transfers.create({
+               amount: transfer.amount,
+               currency: transfer.currency,
+               destination: transfer.destination,
+               transfer_group: 'NEW TRANSFER TO FIX RENT PAYMENTS',
+            }).catch((e: any) => { console.log(e); process.exit(0) })
+
+            // check if new transfer was created
+            if (newTransfer) {
+               newTransferCount++
+               console.log(chalk.cyan(' Status: '), chalk.green('New transfer created.'))
+               console.log(chalk.cyan(' New transfer:'), newTransfer.id)
+            } else {
+               errorCount++
+               console.log(chalk.cyan(' Status: '), chalk.red('Error:'), 'New transfer not created')
+            }
+         } else {
+            console.log(' Transfer group:', transfer.transfer_group)
+         }
+
+         console.log(chalk.cyan('---------------------------\n'))
+      }
+
+      return { transfersCount, transfersToFixCount, newTransferCount, errorCount }
+   }
 }
 
 export default ProcessServices

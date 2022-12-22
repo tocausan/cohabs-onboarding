@@ -50,7 +50,8 @@ async function initStripe(): Promise<Stripe> {
     console.log(chalk.cyan('2 > Restore database from dump\t\t', chalk.bold('cohabs_support_challenge.dump')));
     console.log(chalk.cyan('3 > Tech. challenge: Synch DB to Stripe\t', chalk.yellow('requires', chalk.bold('cohabs_onboarding'), 'data')));
     console.log(chalk.cyan('4 > Supp. challenge: Process disputes\t', chalk.yellow('requires', chalk.bold('cohabs_support_challenge'), 'data')));
-    console.log(chalk.cyan('5 > Exit'));
+    console.log(chalk.cyan('5 > Supp. challenge: Fix rents\t\t'));
+    console.log(chalk.cyan('6 > Exit'));
 
     const rl = readline.createInterface({
       input: process.stdin,
@@ -109,6 +110,16 @@ async function initStripe(): Promise<Stripe> {
           return menu()
 
         case '5':
+          let transfers = await processServices.fixRent(connection, stripe).catch(e => { console.log(e); process.exit(0) });
+          console.log(chalk.bgCyan('\n Results '));
+          console.log(chalk.cyan('\nTransfers:'));
+          console.log(chalk.cyan(' Transfers:'), transfers.transfersCount);
+          console.log(chalk.cyan(' Transfers to fix:'), transfers.transfersToFixCount);
+          console.log(chalk.cyan(' New transfer:'), transfers.newTransferCount);
+          console.log(chalk.red(' Error:'), transfers.errorCount);
+          return menu()
+
+        case '6':
           // EXIT
           connection.end();
           return process.exit(0)
