@@ -345,7 +345,6 @@ const ProcessServices = {
          let newPaymentIntentData = {
             amount: dispute.amount,
             currency: dispute.currency,
-            payment_method_types: ['bank_transfer'],
             description: '',
          }
 
@@ -397,7 +396,7 @@ const ProcessServices = {
                {
                   amount: -newPaymentIntentData.amount,
                   currency: newPaymentIntentData.currency,
-                  description: 'DISPUTE - ' + dispute.id
+                  description: newPaymentIntentData.description,
                }
             );
 
